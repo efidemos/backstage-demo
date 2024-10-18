@@ -13,8 +13,8 @@ yarn tsc
 pushd packages/backend
 yarn build:backend --config ../../app-config.yaml --config ../../app-config.production.yaml
 
-# return to root folder
-popd && popd
+# return to src folder
+popd
 
 docker network create -d bridge backstage 2>/dev/null
 
