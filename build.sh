@@ -15,7 +15,4 @@ yarn build:backend --config ../../app-config.yaml --config ../../app-config.prod
 docker image build . -f packages/backend/Dockerfile --tag backstage
 
 # Run Backstage and Postgres
-docker compose up
-
-# Open Backstage in browser
-python3 -m webbrowser http://localhost:7007
+docker compose up & python3 -m webbrowser http://localhost:7007
