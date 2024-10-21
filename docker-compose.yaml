@@ -6,7 +6,11 @@ services:
       # This value must match the name of the postgres configuration block.
       POSTGRES_HOST: db
       POSTGRES_USER: postgres
+      # GitHub (dummy or real) PAT for local deployment
       GITHUB_TOKEN: abc
+      # Github Apps client ID and secret
+      GITHUB_CLIENTID: <clientId>
+      GITHUB_CLIENTSECRET: <clientSecret>
     ports:
       - 7007:7007
 

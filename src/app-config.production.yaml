@@ -27,10 +27,24 @@ backend:
       # ssl:
       #   ca: # if you have a CA file and want to verify it you can uncomment this section
       #     $file: <file-path>/ca/server.crt
-
+integrations:
+  github:
+    - host: github.com
+      apps:
+        - $include: github-app-backstage-efidemos-credentials.yaml
 auth:
+  environment: development
   providers:
     guest: {}
+    github:
+      development:
+        clientId: ${GITHUB_CLIENTID}
+        clientSecret: ${GITHUB_CLIENTSECRET}
+        signIn:
+          resolvers:
+            # Matches the GitHub username with the Backstage user entity name.
+            # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
+            - resolver: usernameMatchingUserEntityName
 
 catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.
