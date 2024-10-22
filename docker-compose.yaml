@@ -1,5 +1,12 @@
-version: '3'
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      # NOT RECOMMENDED for a production environment. Trusts all incomming
+      # connections.
+      POSTGRES_HOST_AUTH_METHOD: trust
+
   backstage:
     image: backstage:latest
     environment:
@@ -13,11 +20,11 @@ services:
       GITHUB_CLIENTSECRET: <clientSecret>
     ports:
       - 7007:7007
+    depends_on:
+      - db
 
-  db:
-    image: postgres
-    restart: always
-    environment:
-      # NOT RECOMMENDED for a production environment. Trusts all incomming
-      # connections.
-      POSTGRES_HOST_AUTH_METHOD: trust
+  opa:
+    image: openpolicyagent/opa
+    command: run --server
+    ports:
+      - 8181:8181
