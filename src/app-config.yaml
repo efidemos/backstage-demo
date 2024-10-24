@@ -115,5 +115,5 @@ permission:
   enabled: true
 
 # Open Policy Agent
-# opaClient:
-#   baseUrl: http://localhost:8181
+opaClient:
+  baseUrl: http://localhost:8181

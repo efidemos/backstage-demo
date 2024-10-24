@@ -53,6 +53,6 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 
 // opa
-// backend.add(import('@parsifal-m/plugin-opa-backend'));
+backend.add(import('@parsifal-m/plugin-opa-backend'));
 
 backend.start();
