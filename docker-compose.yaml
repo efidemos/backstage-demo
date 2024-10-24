@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      # NOT RECOMMENDED for a production environment. Trusts all incomming
+      # connections.
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  backstage:
+    image: backstage:latest
+    environment:
+      # This value must match the name of the postgres configuration block.
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      # GitHub (dummy or real) PAT for local deployment
+      GITHUB_TOKEN: abc
+      # Github Apps client ID and secret
+      GITHUB_CLIENTID: <clientId>
+      GITHUB_CLIENTSECRET: <clientSecret>
+    ports:
+      - 7007:7007
+    depends_on:
+      - db
+
+  opa:
+    image: openpolicyagent/opa
+    command: run --server
+    ports:
+      - 8181:8181
