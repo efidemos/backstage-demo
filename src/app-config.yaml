@@ -42,6 +42,8 @@ integrations:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
+      apps:
+        - $include: github-app-backstage-efidemos-credentials.yaml
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -111,3 +113,7 @@ kubernetes:
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+
+# Open Policy Agent
+# opaClient:
+#   baseUrl: http://localhost:8181
