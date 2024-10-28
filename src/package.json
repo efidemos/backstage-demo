@@ -53,5 +53,8 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@4.4.1"
+  "packageManager": "yarn@4.4.1",
+  "dependencies": {
+    "@parsifal-m/plugin-opa-entity-checker": "^1.4.1"
+  }
 }

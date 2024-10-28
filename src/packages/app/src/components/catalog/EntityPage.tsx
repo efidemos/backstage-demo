@@ -59,6 +59,11 @@ import {
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
 
+import {
+  OpaMetadataAnalysisCard,
+  hasOPAValidationErrors,
+} from '@parsifal-m/plugin-opa-entity-checker';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -142,7 +147,16 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
+
+    {/* <EntitySwitch>
+    <EntitySwitch.Case if={hasOPAValidationErrors}> */}
+    <Grid item xs={6}>
+      <OpaMetadataAnalysisCard />
+    </Grid>
+    {/* </EntitySwitch.Case>
+    </EntitySwitch> */}
   </Grid>
+  
 );
 
 const serviceEntityPage = (

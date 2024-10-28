@@ -31,6 +31,8 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
 
 integrations:
   github:
@@ -42,8 +44,8 @@ integrations:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
-      apps:
-        - $include: github-app-backstage-efidemos-credentials.yaml
+      # apps:
+      #   - $include: github-app-backstage-efidemos-credentials.yaml
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -117,3 +119,6 @@ permission:
 # Open Policy Agent
 opaClient:
   baseUrl: http://localhost:8181
+  policies:
+    entityChecker:
+      entrypoint: 'entity_checker/violation'

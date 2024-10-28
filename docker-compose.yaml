@@ -25,6 +25,24 @@ services:
 
   opa:
     image: openpolicyagent/opa
-    command: run --server
+    command: run --server --log-level debug /policies/entity_checker.rego
+      # - 'run'
+      # - '--server'
+      # - '--addr "localhost:8181"'
+      # - '--log-level "debug"'
+      # - '--set=decision_logs.console=true'
+      # - '/policies/entity_checker.rego'
     ports:
       - 8181:8181
+    volumes:
+      - ./policies:/policies
+
+  # opa_api_server:
+  #   image: openpolicyagent/restful-api
+  #   ports:
+  #     - 5000:5000
+  #   environment:
+  #     - OPA_ADDR=http://opa:8181
+  #     - POLICY_PATH=/v1/data/httpapi/authz
+  #   depends_on:
+  #     - opa
