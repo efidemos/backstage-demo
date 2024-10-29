@@ -73,6 +73,20 @@ const app = createApp({
       />
     ),
   },
+  featureFlags: [
+    // pluginId is required for feature flags used within plugins
+    // pluginId can be left blank for a feature flag used in the application and not in plugins
+    {
+      pluginId: '',
+      name: 'plugin-opa-entity-checker',
+      description: 'Enables OPA entity checker component',
+    },
+    {
+      pluginId: '',
+      name: 'plugin-opa-policies',
+      description: 'Enables OPA policies component'
+    },
+  ],
 });
 
 const routes = (

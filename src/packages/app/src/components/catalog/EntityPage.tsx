@@ -51,6 +51,8 @@ import {
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
 
+import { FeatureFlagged } from '@backstage/core-app-api';
+
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
@@ -128,6 +130,17 @@ const entityWarningContent = (
         </Grid>
       </EntitySwitch.Case>
     </EntitySwitch>
+
+    {/* OPA entity checker behind feature flag */}
+    <FeatureFlagged with="plugin-opa-entity-checker">
+    <EntitySwitch>
+      <EntitySwitch.Case if={hasOPAValidationErrors}>
+        <Grid item xs={12}>
+          <OpaMetadataAnalysisCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+  </FeatureFlagged>
   </>
 );
 
@@ -147,16 +160,7 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
-
-    {/* <EntitySwitch>
-    <EntitySwitch.Case if={hasOPAValidationErrors}> */}
-    <Grid item xs={6}>
-      <OpaMetadataAnalysisCard />
-    </Grid>
-    {/* </EntitySwitch.Case>
-    </EntitySwitch> */}
   </Grid>
-  
 );
 
 const serviceEntityPage = (
