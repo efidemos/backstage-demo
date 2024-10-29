@@ -31,8 +31,6 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-  auth:
-    dangerouslyDisableDefaultAuthPolicy: true
 
 integrations:
   github:
@@ -118,7 +116,7 @@ permission:
 
 # Open Policy Agent
 opaClient:
-  baseUrl: http://localhost:8181
+  baseUrl: http://opa:8181
   policies:
     entityChecker:
       entrypoint: 'entity_checker/violation'
