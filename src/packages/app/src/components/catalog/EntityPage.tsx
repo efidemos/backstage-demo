@@ -66,6 +66,11 @@ import {
   hasOPAValidationErrors,
 } from '@parsifal-m/plugin-opa-entity-checker';
 
+import {
+  OpaPolicyPage,
+  isOpaPoliciesEnabled,
+} from '@parsifal-m/plugin-opa-policies';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -133,14 +138,14 @@ const entityWarningContent = (
 
     {/* OPA entity checker behind feature flag */}
     <FeatureFlagged with="plugin-opa-entity-checker">
-    <EntitySwitch>
-      <EntitySwitch.Case if={hasOPAValidationErrors}>
-        <Grid item xs={12}>
-          <OpaMetadataAnalysisCard />
-        </Grid>
-      </EntitySwitch.Case>
-    </EntitySwitch>
-  </FeatureFlagged>
+      <EntitySwitch>
+        <EntitySwitch.Case if={hasOPAValidationErrors}>
+          <Grid item xs={12}>
+            <OpaMetadataAnalysisCard />
+          </Grid>
+        </EntitySwitch.Case>
+      </EntitySwitch>
+    </FeatureFlagged>
   </>
 );
 
@@ -238,10 +243,21 @@ const websiteEntityPage = (
       </Grid>
     </EntityLayout.Route>
 
-    <EntityLayout.Route path="/docs" title="Docs">
-      {techdocsContent}
-    </EntityLayout.Route>
-  </EntityLayout>
+    {/* OPA Policy Agent page behind feature flag */}
+    <FeatureFlagged with="plugin-opa-policies">
+      <EntityLayout.Route
+        if={isOpaPoliciesEnabled}
+        path="/opa"
+        title="Open Policy Agent"
+      >
+        <OpaPolicyPage />
+      </EntityLayout.Route>
+    </FeatureFlagged>
+
+      <EntityLayout.Route path="/docs" title="Docs">
+        {techdocsContent}
+      </EntityLayout.Route>
+      </EntityLayout>
 );
 
 /**

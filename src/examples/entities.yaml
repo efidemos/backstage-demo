@@ -19,6 +19,20 @@ spec:
   system: examples
   providesApis: [example-grpc-api]
 ---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: example-website-with-opa-policy
+  description: An example of a Backstage application.
+  annotations:
+    # Add the OPA Policy URL here
+    open-policy-agent/policy: https://github.com/efidemos/backstage-demo/blob/quynh/policies/entity_checker.rego
+spec:
+  type: website
+  lifecycle: development
+  owner: guests
+  system: examples
+---
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
 apiVersion: backstage.io/v1alpha1
 kind: API
