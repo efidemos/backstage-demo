@@ -36,13 +36,3 @@ services:
       - 8181:8181
     volumes:
       - ./policies:/policies
-
-  # opa_api_server:
-  #   image: openpolicyagent/restful-api
-  #   ports:
-  #     - 5000:5000
-  #   environment:
-  #     - OPA_ADDR=http://opa:8181
-  #     - POLICY_PATH=/v1/data/httpapi/authz
-  #   depends_on:
-  #     - opa
