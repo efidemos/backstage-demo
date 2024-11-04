@@ -52,4 +52,7 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 
+// START CUSTOM IMPORTS
+backend.add(import('@parsifal-m/plugin-opa-backend'));
+
 backend.start();

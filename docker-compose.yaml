@@ -16,15 +16,27 @@ services:
       # GitHub (dummy or real) PAT for local deployment
       GITHUB_TOKEN: abc
       # Github Apps client ID and secret
-      GITHUB_CLIENTID: <clientId>
-      GITHUB_CLIENTSECRET: <clientSecret>
+      GITHUB_CLIENTID: $GITHUB_CLIENTID
+      GITHUB_CLIENTSECRET: $GITHUB_CLIENTSECRET
+      GITHUB_USER: $GITHUB_USER
     ports:
       - 7007:7007
     depends_on:
       - db
 
+  # - "--v1-compatible"
   opa:
     image: openpolicyagent/opa
-    command: run --server
+    command: 
+      - "run" 
+      - "--disable-telemetry"
+      - "--server"
+      - "/policies"
+      # - "/policies/example.rego"
+      #- "/policies/poc.rego"
+
     ports:
       - 8181:8181
+    volumes:
+      - ./plugins/opa/policies:/policies
+    

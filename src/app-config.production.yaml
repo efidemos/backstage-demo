@@ -32,7 +32,7 @@ integrations:
   github:
     - host: github.com
       apps:
-        - $include: github-app-backstage-efidemos-credentials.yaml
+        - $include: github-credentials.yaml
 
 auth:
   environment: development
@@ -69,3 +69,6 @@ catalog:
       target: ./examples/org.yaml
       rules:
         - allow: [User, Group]
+
+opaClient:
+  baseUrl: 'http://localhost:8181'
