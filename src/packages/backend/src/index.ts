@@ -34,9 +34,9 @@ backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
 // permission plugin
 backend.add(import('@backstage/plugin-permission-backend/alpha'));
 // See https://backstage.io/docs/permissions/getting-started for how to create your own permission policy
-backend.add(
-  import('@backstage/plugin-permission-backend-module-allow-all-policy'),
-);
+// backend.add(
+//   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
+// );
 
 // search plugin
 backend.add(import('@backstage/plugin-search-backend/alpha'));
@@ -54,5 +54,8 @@ backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 
 // START CUSTOM IMPORTS
 backend.add(import('@parsifal-m/plugin-opa-backend'));
+
+// permissions framework integration test: https://backstage.io/docs/permissions/getting-started
+backend.add(import('./extensions/permissionsPolicyExtension'));
 
 backend.start();
