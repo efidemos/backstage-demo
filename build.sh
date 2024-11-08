@@ -55,7 +55,6 @@ yarn build:backend --config ../../app-config.production.yaml
 docker image build . -f packages/backend/Dockerfile --tag backstage
 
 # reset with variable placeholder so no need to manually unstage
-git restore examples/org.yaml
+# git restore examples/org.yaml
 
-# Run Backstage and Postgres
-docker compose up -d
+

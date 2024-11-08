@@ -8,27 +8,29 @@
   - GITHUB_USER (your GitHub account name)
   Linux example `export GITHUB_CLIENTID="my_client_id"`
 
-3. In `src/examples/org.yaml` add a User entity for your own GitHub handle, e.g.:
-    ```
-    ---
-    apiVersion: backstage.io/v1alpha1
-    kind: User
-    metadata:
-        name: <GitHub username>
-    spec:
-        memberOf: [owners]
-    ```
+3. Building: `./build.sh`
 
-4. Run `./build.sh`
+    - Will create a container named `backstage` - containing both the backend and frontend (app) packages
+    - The image uses app-config.production.yaml
+    - Compiles TypeScript (`yarn tsc`)
+    - Will inject your $GITHUB_USER into src/examples/org.yaml (and allow authentication via GitHub)
+
+4. Running:
+  - local dev with quick iterations (no image rebuild required and uses embedded DB):
+    from repo root: `./run.sh`
+  - local dev with prod config (requires image rebuild via build.sh, and uses Postgres container)
+    from repo root: `./run.sh prod`
 
 5. Profit
 
 ## OPA Policy Flow
 
 1. Create policy files at /plugins/opa/policies/(**)/*.rego
-2. If already running, you need to fully reboot the OPA server, meaning stop and remove via:
-  `docker compose stop opa`
-  `docker compose rm opa`
-  `docker compose up -d opa`
+2. If already running, you need to fully reboot the OPA server by running the `opa_restart.sh` script.
 3. Verify the endpoints via: `curl "http://localhost:8181/v1/data/[package_name]/[value]`, for example
-`curl "http://localhost:8181/v1/data/example/greeting` should print the message contained in plugins/opa/policies/example.rego
+`curl "http://localhost:8181/v1/data/example/greeting` should print the `greeting` variable contained in plugins/opa/policies/example.rego
+
+### Troubleshooting:
+ - If the container doesn't stay running, there is likely a .rego syntax error.
+   run `docker compose logs opa` to see the error
+   iterate quickly using either `opa_restart.sh` helper script, or installing opa cli locally (followed by `opa run --server plugins/opa/policies`) 
