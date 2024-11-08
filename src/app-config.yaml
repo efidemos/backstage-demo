@@ -23,6 +23,7 @@ backend:
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
     origin: http://localhost:3000
+    #origin: '*'
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # This is for local development only, it is not recommended to use this in production
@@ -104,10 +105,16 @@ catalog:
     #   rules:
     #     - allow: [User, Group]
 
-kubernetes:
+# kubernetes:
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+
+opaClient:
+  baseUrl: 'http://localhost:8181'
+  policies:
+    entityChecker: # Entity checker plugin
+      entrypoint: 'entity_checker/violation'

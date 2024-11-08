@@ -59,6 +59,17 @@ import {
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
 
+// https://github.com/Parsifal-M/backstage-opa-plugins/blob/main/plugins/backstage-opa-entity-checker/README.md
+import {
+  OpaMetadataAnalysisCard,
+  hasOPAValidationErrors,
+} from '@parsifal-m/plugin-opa-entity-checker';
+
+import {
+  OpaPolicyPage,
+  isOpaPoliciesEnabled,
+} from '@parsifal-m/plugin-opa-policies';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -142,6 +153,13 @@ const overviewContent = (
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
     </Grid>
+    <EntitySwitch>
+      <EntitySwitch.Case if={hasOPAValidationErrors}>
+        <Grid item xs={6}>
+          <OpaMetadataAnalysisCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </Grid>
 );
 
@@ -218,6 +236,14 @@ const websiteEntityPage = (
           <EntityDependsOnResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      if={isOpaPoliciesEnabled}
+      path="/opa"
+      title="Open Policy Agent"
+    >
+      <OpaPolicyPage />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
