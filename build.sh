@@ -30,19 +30,14 @@ if docker compose ls | grep -q "^backstage "; then
 else
   echo "Project 'backstage' not running, skipping 'docker compose down'"
 fi
-
-if [[ ! -d "node_modules" ]]; then
-  echo "node_modules folder not found. Running yarn install --immutable..."
-  yarn install --immutable
-else
-  echo "node_modules folder already exists. Skipping yarn install."
-fi
+  
+yarn install --immutable
 
 # Output type definitions to dist-types/ in src, which are then consumed by the build
 yarn tsc
 
 # inject GITHUB_USER for app auth setup
-sed -i "s|\$GITHUB_USER|${GITHUB_USER}|g" examples/org.yaml
+sed -i "s|GITHUB_USER|${GITHUB_USER}|g" examples/org.yaml
 
 # pushd packages/backend
 
