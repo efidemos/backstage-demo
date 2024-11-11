@@ -9,8 +9,8 @@ else
 fi
 
 if [ "$1" == "prod" ]; then
-  docker compose up -d -f docker-compose_prod.yml
+  docker compose --file docker-compose_prod.yml up --detach
 else
-  docker compose up -d
+  docker compose up --detach
   yarn dev
 fi
