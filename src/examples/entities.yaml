@@ -11,10 +11,7 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: example-website-01
-  annotations:
-    # open-policy-agent/policy: http://localhost:8000/entity_checker.rego 
-    open-policy-agent/policy: https://github.com/Parsifal-M/backstage-testing-grounds/blob/main/rbac.rego
+  name: example-website
 spec:
   type: website
   lifecycle: experimental
@@ -42,13 +39,3 @@ spec:
     message ExampleMessage {
       string example = 1;
     };
----
-apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: example-website-02
-spec:
-  type: website
-  lifecycle: experimental
-  owner: bob
-  providesApis: [example-grpc-api]
