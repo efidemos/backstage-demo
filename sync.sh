@@ -3,27 +3,48 @@ set -e
 
 # Configuration
 NEW_APP_NAME="backstage-new"
+VERSION_FILE=".backstage-version"
 
 echo "=== Backstage Upgrade Process ==="
 echo "This script will create a new Backstage app and sync your current customizations."
 
 # Step 0: Check current version vs latest version
-if [ -f "src/package.json" ]; then
-  echo "Checking Backstage versions..."
+CURRENT_VERSION="unknown"
+
+# Try multiple methods to detect the current version
+if [ -f "$VERSION_FILE" ]; then
+  # First, try reading from our version tracking file
+  CURRENT_VERSION=$(cat "$VERSION_FILE")
+  echo "Found version from tracking file: $CURRENT_VERSION"
+elif [ -f "src/package.json" ]; then
+  echo "Checking Backstage versions from package.json..."
   
-  # Get current version from package.json
-  CURRENT_VERSION=$(grep -o '"@backstage/core-plugin-api": "[^"]*"' src/package.json | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' || echo "unknown")
+  # Try multiple common Backstage packages to find version
+  PACKAGES_TO_CHECK=(
+    '"@backstage/app-defaults": "[^"]*"'
+    '"@backstage/core-plugin-api": "[^"]*"'
+    '"@backstage/core-components": "[^"]*"'
+    '"@backstage/plugin-api-docs": "[^"]*"'
+  )
   
-  # Get latest version without installing
-  LATEST_VERSION=$(npm view @backstage/create-app version)
-  
-  echo "Current Backstage version: $CURRENT_VERSION"
-  echo "Latest Backstage version: $LATEST_VERSION"
-  
-  if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
-    echo "You are already on the latest version. No upgrade needed."
-    exit 0
-  fi
+  for package in "${PACKAGES_TO_CHECK[@]}"; do
+    VERSION=$(grep -o "$package" src/package.json | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' || echo "")
+    if [ ! -z "$VERSION" ]; then
+      CURRENT_VERSION="$VERSION"
+      break
+    fi
+  done
+fi
+
+# Get latest version without installing
+LATEST_VERSION=$(npm view @backstage/create-app version)
+
+echo "Current Backstage version: $CURRENT_VERSION"
+echo "Latest Backstage version: $LATEST_VERSION"
+
+if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
+  echo "You are already on the latest version. No upgrade needed."
+  exit 0
 fi
 
 # Step 1: Create new Backstage app with latest version
@@ -118,6 +139,10 @@ done
 echo "Replacing old version with new version..."
 rm -rf src
 mv "$NEW_APP_NAME" src
+
+# Save the current version for future reference
+echo "$LATEST_VERSION" > "$VERSION_FILE"
+echo "Saved version $LATEST_VERSION to $VERSION_FILE for tracking"
 
 echo "=== Upgrade Complete ==="
 echo "Please manually check the following:"
